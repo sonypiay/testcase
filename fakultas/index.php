@@ -6,12 +6,22 @@ $fakultasClass = new Model\Fakultas;
 $base_url = $base_url . '/fakultas';
 $query = 'select id, title, description, publish, modify_date from T_Fakultas';
 
+$is_publish = isset( $_REQUEST['is_publish'] ) ? $_REQUEST['is_publish'] : '';
+$search			= isset( $_REQUEST['search'] ) ? $_REQUEST['search'] : '';
+
 if( isset( $_REQUEST['filter'] ) )
 {
-	$is_publish = isset( $_REQUEST['is_publish'] ) ? $_REQUEST['is_publish'] : 'all';
-	if( ! empty( $is_publish ) && $is_publish !== 'all' )
+	if( empty( $search ) && ! empty( $is_publish ) )
 	{
 		$query .= ' where publish = "' . $is_publish . '"';
+	}
+	else if( ! empty( $search ) && empty( $is_publish ) )
+	{
+		$query .= ' where title like "%' . $search . '%" or description like "%' . $search . '%"';
+	}
+	else if( ! empty( $search ) && ! empty( $is_publish ) )
+	{
+		$query .= ' where st.publish and ( st.name like "%' . $search . '%" or st.nim like "%' . $search . '%" )';
 	}
 }
 
@@ -28,6 +38,9 @@ $getData = $fakultasClass->getAllData( $query );
 	<title>Data Fakultas</title>
 </head>
 <body>
+<!-- nav -->
+<?php require dirname( __DIR__ ) . '/menu.php'; ?>
+<!-- nav -->
 <div class="uk-container uk-align-center uk-margin-large-top">
 	<h2>Data Fakultas</h2>
 	<div class="uk-margin">
@@ -42,6 +55,9 @@ $getData = $fakultasClass->getAllData( $query );
 								<option value="Publish" <?php if( isset( $_REQUEST['is_publish'] ) && $_REQUEST['is_publish'] == 'Publish' ) echo 'selected'; ?>>Publish</option>
 								<option value="Not Publish" <?php if( isset( $_REQUEST['is_publish'] ) && $_REQUEST['is_publish'] == 'Not Publish' ) echo 'selected'; ?>>Not Publish</option>
 							</select>
+						</div>
+						<div>
+							<input class="uk-input" type="search" name="search" value="<?php echo $search; ?>">
 						</div>
 						<div>
 							<input class="uk-button uk-button-primary" type="submit" name="filter" value="Filter">

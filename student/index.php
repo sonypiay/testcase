@@ -7,15 +7,26 @@ $base_url = $base_url . '/student';
 $query = 'select st.id, st.name, st.nim, st.gender, st.phone, st.publish, st.modify_date, fk.title from T_Student st
 inner join T_Fakultas fk on st.fakultas_id = fk.id';
 
+$is_publish = isset( $_REQUEST['is_publish'] ) ? $_REQUEST['is_publish'] : '';
+$search			= isset( $_REQUEST['search'] ) ? $_REQUEST['search'] : '';
+
 if( isset( $_REQUEST['filter'] ) )
 {
-	$is_publish = isset( $_REQUEST['is_publish'] ) ? $_REQUEST['is_publish'] : 'all';
-	if( ! empty( $is_publish ) && $is_publish !== 'all' )
+	if( empty( $search ) && ! empty( $is_publish ) )
 	{
 		$query .= ' where st.publish = "' . $is_publish . '"';
 	}
+	else if( ! empty( $search ) && empty( $is_publish ) )
+	{
+		$query .= ' where st.name like "%' . $search . '%" or st.nim like "%' . $search . '%"';
+	}
+	else if( ! empty( $search ) && ! empty( $is_publish ) )
+	{
+		$query .= ' where st.publish and ( st.name like "%' . $search . '%" or st.nim like "%' . $search . '%" )';
+	}
 }
 
+$query .= ' order by st.create_date desc';
 $getData = $studentClass->getAllData( $query );
 ?>
 <!DOCTYPE html>
@@ -29,6 +40,9 @@ $getData = $studentClass->getAllData( $query );
 	<title>Data Mahasiswa</title>
 </head>
 <body>
+	<!-- nav -->
+	<?php require dirname( __DIR__ ) . '/menu.php'; ?>
+	<!-- nav -->
 <div class="uk-container uk-align-center uk-margin-large-top">
   <h2>Data Mahasiswa</h2>
 	<div class="uk-margin">
@@ -39,10 +53,12 @@ $getData = $studentClass->getAllData( $query );
 						<div>
 							<select class="uk-select" name="is_publish">
 								<option value="">-- Publikasi --</option>
-								<option value="all" <?php if( isset( $_REQUEST['is_publish'] ) && $_REQUEST['is_publish'] == 'all' ) echo 'selected'; ?>>Tampilkan Semua</option>
-								<option value="Publish" <?php if( isset( $_REQUEST['is_publish'] ) && $_REQUEST['is_publish'] == 'Publish' ) echo 'selected'; ?>>Publish</option>
-								<option value="Not Publish" <?php if( isset( $_REQUEST['is_publish'] ) && $_REQUEST['is_publish'] == 'Not Publish' ) echo 'selected'; ?>>Not Publish</option>
+								<option value="Publish" <?php if( $is_publish == 'Publish' ) echo 'selected'; ?>>Publish</option>
+								<option value="Not Publish" <?php if( $is_publish == 'Not Publish' ) echo 'selected'; ?>>Not Publish</option>
 							</select>
+						</div>
+						<div>
+							<input class="uk-input" type="search" name="search" value="<?php echo $search; ?>">
 						</div>
 						<div>
 							<input class="uk-button uk-button-primary" type="submit" name="filter" value="Filter">

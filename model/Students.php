@@ -137,7 +137,29 @@ class Students
   }
 
   public function destroy( $id )
-  {
-
-  }
+	{
+		global $base_url;
+		try {
+			$open = $this->connection::up();
+			$checkStmt = $open->prepare('select id from ' . $this->table . ' where id = ' . $id);
+			$checkStmt->execute();
+			if( $checkStmt->rowCount() == 0 )
+			{
+				die('Data tidak ditemukan');
+			}
+			else
+			{
+				try {
+					$deleteStmt = $open->prepare('delete from ' . $this->table . ' where id=' . $id);
+					$deleteStmt->execute();
+				} catch (\Exception $e) {
+					die( $e->getMessage() );
+				}
+			}
+			$this->connection::down();
+			header('location: ' . $base_url . '/student/?delete=success');
+		} catch (\Exception $e) {
+			die( $e->getMessage() );
+		}
+	}
 }

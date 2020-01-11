@@ -16,7 +16,7 @@ $publis = isset( $_REQUEST['publis'] ) ? $_REQUEST['publis'] : '';
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/css/uikit.min.css" />
 	<!-- UIkit JS -->
 	<script src="https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/js/uikit.min.js"></script>
-	<title>Data Fakultas</title>
+	<title>Tambah Fakultas Baru</title>
 </head>
 <body>
 <div class="uk-container uk-width-3-5 uk-align-center uk-margin-large-top">
@@ -47,15 +47,15 @@ $publis = isset( $_REQUEST['publis'] ) ? $_REQUEST['publis'] : '';
 				</div>
 			</div>
 			<div class="uk-margin">
-				<label for="nama_fakultas">Keterangan</label>
+				<label for="keterangan">Keterangan</label>
 				<div class="uk-form-controls">
-					<textarea name="keterangan" class="uk-textarea uk-height-small"><?php echo $keterangan ?></textarea>
+					<textarea id="keterangan" name="keterangan" class="uk-textarea uk-height-small"><?php echo $keterangan ?></textarea>
 				</div>
 			</div>
 			<div class="uk-margin">
-				<label for="nama_fakultas">Publis?</label>
+				<label for="publis">Publis?</label>
 				<div class="uk-form-controls">
-					<select class="uk-select" name="publis">
+					<select class="uk-select" id="publis" name="publis">
 						<option value="Publish" <?php if( $publis == 'Publish' ) echo 'selected'; ?>>Ya</option>
 						<option value="Not Publish" <?php if( $publis == 'Not Publish' ) echo 'selected'; ?>>Tidak</option>
 					</select>

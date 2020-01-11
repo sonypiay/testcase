@@ -23,9 +23,9 @@ class Fakultas {
 			$query = 'select * from ' . $this->table;
 			$param = [];
 
-			if( isset( $request['is_publish'] ) && ! empty( $_REQUEST['is_publish'] ) )
+			if( isset( $request['is_publish'] ) && ! empty( $request['is_publish'] ) )
 			{
-				if( $_REQUEST['is_publish'] !== 'all' )
+				if( $request['is_publish'] !== 'all' )
 				{
 					$query .= ' where publish=:is_publish';
 					$param['is_publish'] = $request['is_publish'];

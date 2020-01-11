@@ -81,7 +81,12 @@ else
 						</td>
 						<td><?php echo $value->title; ?></td>
 						<td><?php echo $value->description; ?></td>
-						<td><?php echo $value->publish; ?></td>
+						<td>
+							<?php
+								$is_publish = $value->publish === 'Publish' ? 'Ya' : 'Tidak';
+								echo $is_publish;
+							?>
+						</td>
 						<td>
 							<?php
 							$dateTime = new DateTime( $value->modify_date );

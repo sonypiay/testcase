@@ -21,7 +21,7 @@ if( isset( $_REQUEST['filter'] ) )
 	}
 	else if( ! empty( $search ) && ! empty( $is_publish ) )
 	{
-		$query .= ' where st.publish and ( st.name like "%' . $search . '%" or st.nim like "%' . $search . '%" )';
+		$query .= ' where publish = "' . $is_publish . '" and ( title like "%' . $search . '%" or description like "%' . $search . '%" )';
 	}
 }
 
@@ -51,7 +51,6 @@ $getData = $fakultasClass->getAllData( $query );
 						<div>
 							<select class="uk-select" name="is_publish">
 								<option value="">-- Publikasi --</option>
-								<option value="all" <?php if( isset( $_REQUEST['is_publish'] ) && $_REQUEST['is_publish'] == 'all' ) echo 'selected'; ?>>Tampilkan Semua</option>
 								<option value="Publish" <?php if( isset( $_REQUEST['is_publish'] ) && $_REQUEST['is_publish'] == 'Publish' ) echo 'selected'; ?>>Publish</option>
 								<option value="Not Publish" <?php if( isset( $_REQUEST['is_publish'] ) && $_REQUEST['is_publish'] == 'Not Publish' ) echo 'selected'; ?>>Not Publish</option>
 							</select>

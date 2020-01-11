@@ -110,64 +110,23 @@ $getFakultas = $fakultasClass->getAllData('select * from T_Fakultas where publis
 							<div class="uk-width-1-3">
 								<label for="tanggal">Tanggal Lahir</label>
 								<div class="uk-form-controls">
-									<select class="uk-select" id="tanggal" name="tanggal">
-										<option value="">Tanggal</option>
-										<?php
-										for( $i = 1; $i <= 31; $i++ )
-										{
-											if( $i === $tanggal )
-											{
-												echo '<option value="' . $i . '" selected>' . $i . '</option>';
-											}
-											else
-											{
-												echo '<option value="' . $i . '">' . $i . '</option>';
-											}
-										}
-										?>
-									</select>
+									<div class="uk-form-controls">
+										<input type="text" id="bulan" maxlength="2" class="uk-input" name="tanggal" value="<?php echo $tanggal; ?>" />
+									</div>
 								</div>
 							</div>
 							<div class="uk-width-1-3">
 								<label for="bulan">Bulan</label>
 								<div class="uk-form-controls">
-									<select class="uk-select" id="bulan" name="bulan">
-										<option value="">Bulan</option>
-										<?php
-										for( $i = 1; $i <= 12; $i++ )
-										{
-											if( $i === $bulan )
-											{
-												echo '<option value="' . $i . '" selected>' . $i . '</option>';
-											}
-											else
-											{
-												echo '<option value="' . $i . '">' . $i . '</option>';
-											}
-										}
-										?>
-									</select>
+									<div class="uk-form-controls">
+										<input type="text" id="bulan" maxlength="2" class="uk-input" name="bulan" value="<?php echo $bulan; ?>" />
+									</div>
 								</div>
 							</div>
 							<div class="uk-width-1-3">
 								<label for="tahun">Tahun</label>
 								<div class="uk-form-controls">
-									<select class="uk-select" id="tahun" name="tahun">
-										<option value="">Tahun</option>
-										<?php
-										for( $i = 1960; $i <= date('Y'); $i++ )
-										{
-											if( $i === $tahun )
-											{
-												echo '<option value="' . $i . '" selected>' . $i . '</option>';
-											}
-											else
-											{
-												echo '<option value="' . $i . '">' . $i . '</option>';
-											}
-										}
-										?>
-									</select>
+									<input type="text" id="tahun" maxlength="4" class="uk-input" name="tahun" value="<?php echo $tahun; ?>" />
 								</div>
 							</div>
 						</div>
@@ -178,8 +137,8 @@ $getFakultas = $fakultasClass->getAllData('select * from T_Fakultas where publis
 				<label for="nama_fakultas">Publis?</label>
 				<div class="uk-form-controls">
 					<select class="uk-select" name="publis">
-						<option value="Publish" <?php if( $publis == 'Publish' ) echo 'selected'; ?>>Ya</option>
-						<option value="Not Publish" <?php if( $publis == 'Not Publish' ) echo 'selected'; ?>>Tidak</option>
+						<option value="Publish" <?php if( $publis == 'Publish' ) echo 'selected'; ?>>Publish</option>
+						<option value="Not Publish" <?php if( $publis == 'Not Publish' ) echo 'selected'; ?>>Not Publish</option>
 					</select>
 				</div>
 			</div>

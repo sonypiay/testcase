@@ -8,8 +8,8 @@ class Connection
 {
 
 	// Include database connection settings
-	const USERNAME = "sonypiay";
-	const PASSWORD = "lemans231";
+	const USERNAME = "root";
+	const PASSWORD = "";
 	const HOSTNAME = "localhost";
 	const DATABASE = "eannovate";
 	const PORT			= 3306;

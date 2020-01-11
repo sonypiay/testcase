@@ -42,6 +42,14 @@ if( $method === 'POST' )
   {
     array_push( $errors, 'Tanggal lahir harap diisi');
   }
+  if( ( ! is_numeric( $tanggal ) && ! empty( $tanggal ) ) || ( ! is_numeric( $bulan ) && ! empty( $bulan ) ) || ( ! is_numeric( $tahun ) && ! empty( $tahun ) ) )
+  {
+	array_push( $errors, 'Masukkan format tanggal lahir dengan benar.');  
+  }
+  if( ! is_numeric( $nim ) && ! empty( $nim ) )
+  {
+	array_push( $errors, 'Masukkan format nim dengan benar.');    
+  }
 
 	if( count( $errors ) === 0 ) $studentClass->update( $_REQUEST['id'], $_REQUEST );
 

@@ -22,7 +22,7 @@ if( isset( $_REQUEST['filter'] ) )
 	}
 	else if( ! empty( $search ) && ! empty( $is_publish ) )
 	{
-		$query .= ' where st.publish and ( st.name like "%' . $search . '%" or st.nim like "%' . $search . '%" )';
+		$query .= ' where st.publish = "' . $is_publish . '" and ( st.name like "%' . $search . '%" or st.nim like "%' . $search . '%" )';
 	}
 }
 

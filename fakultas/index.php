@@ -57,7 +57,7 @@ $getData = $fakultasClass->getAllData( $query );
 							</select>
 						</div>
 						<div>
-							<input class="uk-input" type="search" name="search" value="<?php echo $search; ?>">
+							<input class="uk-input" type="search" name="search" placeholder="Cari fakultas" value="<?php echo $search; ?>">
 						</div>
 						<div>
 							<input class="uk-button uk-button-primary" type="submit" name="filter" value="Filter">

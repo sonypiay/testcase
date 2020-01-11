@@ -58,7 +58,7 @@ $getData = $studentClass->getAllData( $query );
 							</select>
 						</div>
 						<div>
-							<input class="uk-input" type="search" name="search" value="<?php echo $search; ?>">
+							<input class="uk-input" type="search" placeholder="Cari nama atau nim" name="search" value="<?php echo $search; ?>">
 						</div>
 						<div>
 							<input class="uk-button uk-button-primary" type="submit" name="filter" value="Filter">

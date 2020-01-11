@@ -70,7 +70,7 @@ $publis = isset( $_REQUEST['publis'] ) ? $_REQUEST['publis'] : $fakultas->publis
 				</div>
 			</div>
 			<div class="uk-margin">
-				<input class="uk-button uk-button-primary" type="submit" name="action" value="Tambah">
+				<input class="uk-button uk-button-primary" type="submit" name="action" value="Simpan">
 				<a class="uk-button uk-button-default" href="<?php echo $base_url . '/'; ?>">Kembali</a>
 			</div>
 		</form>

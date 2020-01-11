@@ -11,3 +11,4 @@ $base_url = 'http://' . $_SERVER['SERVER_NAME'] . '/' . $base_path;
 
 require $model_path . '/Connection.php';
 require $model_path . '/Fakultas.php';
+require $model_path . '/Students.php';

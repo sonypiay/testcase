@@ -4,19 +4,23 @@ require dirname( __DIR__ ) . '/autoload.php';
 
 $base_url = $base_url . '/student';
 
-$nama_lengkap = isset( $_REQUEST['nama_lengkap'] ) ? $_REQUEST['nama_lengkap'] : '';
-$nim 					= isset( $_REQUEST['nim'] ) ? $_REQUEST['nim'] : '';
-$gender 			= isset( $_REQUEST['gender'] ) ? $_REQUEST['gender'] : '';
-$tempat_lahir = isset( $_REQUEST['tempat_lahir'] ) ? $_REQUEST['tempat_lahir'] : '';
-$tanggal 			= isset( $_REQUEST['tanggal'] ) ? $_REQUEST['tanggal'] : '';
-$bulan 				= isset( $_REQUEST['bulan'] ) ? $_REQUEST['bulan'] : '';
-$tahun 				= isset( $_REQUEST['tahun'] ) ? $_REQUEST['tahun'] : '';
-$publis 			= isset( $_REQUEST['publis'] ) ? $_REQUEST['publis'] : '';
-$telepon			= isset( $_REQUEST['telepon'] ) ? $_REQUEST['telepon'] : '';
-$fakultas			= isset( $_REQUEST['fakultas'] ) ? $_REQUEST['fakultas'] : '';
+$fakultasClass  = new Model\Fakultas;
+$studentClass   = new Model\Students;
+$getFakultas    = $fakultasClass->getAllData('select * from T_Fakultas where publish = "Publish"');
+$student        = $studentClass->show( $_REQUEST['id'] );
+if( ! $student ) die('Data tidak ditemukan');
 
-$fakultasClass = new Model\Fakultas;
-$getFakultas = $fakultasClass->getAllData('select * from T_Fakultas where publish = "Publish"');
+$nama_lengkap = isset( $_REQUEST['nama_lengkap'] ) ? $_REQUEST['nama_lengkap'] : $student->name;
+$nim 					= isset( $_REQUEST['nim'] ) ? $_REQUEST['nim'] : $student->nim;
+$gender 			= isset( $_REQUEST['gender'] ) ? $_REQUEST['gender'] : $student->gender;
+$tempat_lahir = isset( $_REQUEST['tempat_lahir'] ) ? $_REQUEST['tempat_lahir'] : $student->birth_place;
+$tanggal 			= isset( $_REQUEST['tanggal'] ) ? $_REQUEST['tanggal'] : (new DateTime($student->dob))->format('j');
+$bulan 				= isset( $_REQUEST['bulan'] ) ? $_REQUEST['bulan'] : (new DateTime($student->dob))->format('m');
+$tahun 				= isset( $_REQUEST['tahun'] ) ? $_REQUEST['tahun'] : (new DateTime($student->dob))->format('Y');
+$publis 			= isset( $_REQUEST['publis'] ) ? $_REQUEST['publis'] : $student->publish;
+$telepon			= isset( $_REQUEST['telepon'] ) ? $_REQUEST['telepon'] : $student->phone;
+$fakultas			= isset( $_REQUEST['fakultas'] ) ? $_REQUEST['fakultas'] : $student->fakultas_id;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,14 +30,14 @@ $getFakultas = $fakultasClass->getAllData('select * from T_Fakultas where publis
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/css/uikit.min.css" />
 	<!-- UIkit JS -->
 	<script src="https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/js/uikit.min.js"></script>
-	<title>Tambah Mahasiswa Baru</title>
+	<title>Ubah Mahasiswa</title>
 </head>
 <body>
 <div class="uk-container uk-width-3-5 uk-align-center uk-margin-large-top">
 	<?php
 	if( isset( $_REQUEST['action'] ) )
 	{
-		require __DIR__ . '/controller/insert.php';
+		require __DIR__ . '/controller/edit.php';
 
 		if( isset( $errors ) && count( $errors ) != 0 )
 		{
@@ -48,7 +52,7 @@ $getFakultas = $fakultasClass->getAllData('select * from T_Fakultas where publis
 	}
 	?>
 	<div class="uk-card uk-card-body uk-card-default">
-		<div class="uk-card-title">Tambah Mahasiswa Baru</div>
+		<div class="uk-card-title">Ubah Mahasiswa - <?php echo $student->name; ?></div>
 		<form class="uk-form-stacked uk-margin" method="post">
 			<div class="uk-margin">
 				<label for="fakultas">Fakultas</label>
@@ -115,7 +119,7 @@ $getFakultas = $fakultasClass->getAllData('select * from T_Fakultas where publis
 										<?php
 										for( $i = 1; $i <= 31; $i++ )
 										{
-											if( $i === $tanggal )
+											if( $i == $tanggal )
 											{
 												echo '<option value="' . $i . '" selected>' . $i . '</option>';
 											}
@@ -136,7 +140,7 @@ $getFakultas = $fakultasClass->getAllData('select * from T_Fakultas where publis
 										<?php
 										for( $i = 1; $i <= 12; $i++ )
 										{
-											if( $i === $bulan )
+											if( $i == $bulan )
 											{
 												echo '<option value="' . $i . '" selected>' . $i . '</option>';
 											}
@@ -157,7 +161,7 @@ $getFakultas = $fakultasClass->getAllData('select * from T_Fakultas where publis
 										<?php
 										for( $i = 1960; $i <= date('Y'); $i++ )
 										{
-											if( $i === $tahun )
+											if( $i == $tahun )
 											{
 												echo '<option value="' . $i . '" selected>' . $i . '</option>';
 											}
@@ -184,7 +188,7 @@ $getFakultas = $fakultasClass->getAllData('select * from T_Fakultas where publis
 				</div>
 			</div>
 			<div class="uk-margin">
-				<input class="uk-button uk-button-primary" type="submit" name="action" value="Tambah">
+				<input class="uk-button uk-button-primary" type="submit" name="action" value="Simpan">
 				<a class="uk-button uk-button-default" href="<?php echo $base_url . '/'; ?>">Kembali</a>
 			</div>
 		</form>

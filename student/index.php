@@ -1,21 +1,22 @@
 <?php
 require dirname( __DIR__ ) . '/autoload.php';
 
-$fakultasClass = new Model\Fakultas;
+$studentClass = new Model\Fakultas;
 
-$base_url = $base_url . '/fakultas';
-$query = 'select id, title, description, publish, modify_date from T_Fakultas';
+$base_url = $base_url . '/student';
+$query = 'select st.id, st.name, st.nim, st.gender, st.phone, st.publish, st.modify_date, fk.title from T_Student st
+inner join T_Fakultas fk on st.fakultas_id = fk.id';
 
 if( isset( $_REQUEST['filter'] ) )
 {
 	$is_publish = isset( $_REQUEST['is_publish'] ) ? $_REQUEST['is_publish'] : 'all';
 	if( ! empty( $is_publish ) && $is_publish !== 'all' )
 	{
-		$query .= ' where publish = "' . $is_publish . '"';
+		$query .= ' where st.publish = "' . $is_publish . '"';
 	}
 }
 
-$getData = $fakultasClass->getAllData( $query );
+$getData = $studentClass->getAllData( $query );
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,11 +26,11 @@ $getData = $fakultasClass->getAllData( $query );
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/css/uikit.min.css" />
 	<!-- UIkit JS -->
 	<script src="https://cdn.jsdelivr.net/npm/uikit@3.2.6/dist/js/uikit.min.js"></script>
-	<title>Data Fakultas</title>
+	<title>Data Mahasiswa</title>
 </head>
 <body>
 <div class="uk-container uk-align-center uk-margin-large-top">
-	<h2>Data Fakultas</h2>
+  <h2>Data Mahasiswa</h2>
 	<div class="uk-margin">
 		<form method="post">
 			<div class="uk-grid-small" uk-grid>
@@ -49,7 +50,7 @@ $getData = $fakultasClass->getAllData( $query );
 					</div>
 				</div>
 				<div class="uk-width-auto">
-					<a class="uk-button uk-button-primary" href="<?php echo $base_url; ?>/insert.php">Tambah Fakultas</a>
+					<a class="uk-button uk-button-primary" href="<?php echo $base_url; ?>/insert.php">Tambah Mahasiswa</a>
 				</div>
 			</div>
 		</form>
@@ -71,7 +72,10 @@ $getData = $fakultasClass->getAllData( $query );
 				<tr>
 					<th>Aksi</th>
 					<th>Nama</th>
-					<th>Keterangan</th>
+					<th>NIM</th>
+          <th>Fakultas</th>
+          <th>Jenis Kelamin</th>
+          <th>Telepon</th>
 					<th>Publikasi</th>
 					<th>Terakhir diubah</th>
 				</tr>
@@ -83,8 +87,16 @@ $getData = $fakultasClass->getAllData( $query );
 							<a class="uk-button uk-button-small uk-button-default" href="<?php echo $base_url . '/edit.php?id=' . $value->id; ?>">Ubah</a>
 							<a onclick="onDeleteFunction(<?php echo $value->id; ?>);" class="uk-button uk-button-small uk-button-default" href="#">Hapus</a>
 						</td>
-						<td><?php echo $value->title; ?></td>
-						<td><?php echo $value->description; ?></td>
+						<td><?php echo $value->name; ?></td>
+						<td><?php echo $value->nim; ?></td>
+            <td><?php echo $value->title; ?></td>
+            <td>
+              <?php
+                $gender = $value->gender === 'L' ? 'Laki - Laki' : 'Perempuan';
+                echo $gender;
+              ?>
+            </td>
+            <td><?php echo $value->phone; ?></td>
 						<td>
 							<?php
 								$is_publish = $value->publish === 'Publish' ? 'Ya' : 'Tidak';

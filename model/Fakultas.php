@@ -15,32 +15,18 @@ class Fakultas {
 		$this->connection = new Connection;
 	}
 
-	public function getAllData( $request = [] )
+	public function getAllData( $query )
 	{
 		$open = $this->connection::up();
 		try {
-
-			$query = 'select * from ' . $this->table;
-			$param = [];
-
-			if( isset( $request['is_publish'] ) && ! empty( $request['is_publish'] ) )
-			{
-				if( $request['is_publish'] !== 'all' )
-				{
-					$query .= ' where publish=:is_publish';
-					$param['is_publish'] = $request['is_publish'];
-				}
-			}
-
-			$query .= ' order by create_date desc';
-
 			$stmt = $open->prepare($query);
-			$stmt->execute($param);
+			$stmt->execute();
 
 			$result = $stmt->fetchAll( PDO::FETCH_OBJ );
 
 			$this->connection::down();
 			return $result;
+
 		} catch (\Exception $e) {
 			die( $e->getMessage() );
 		}
